@@ -1,17 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Lock, Phone, Mail, Check } from 'lucide-react';
 import { useAuthStore, type UserRole } from '@/lib/store';
+import { useRouter } from 'next/navigation';
 import { GlassCard } from '@/components/GlassCard';
 import { RoleSwitcher } from '@/components/RoleSwitcher';
+import Image from 'next/image';
 
 export default function AuthPage() {
-  const { setLoggedIn, setUserData, setCurrentScreen, userRole } = useAuthStore();
+  const router = useRouter();
+  const { setLoggedIn, setUserData, setCurrentScreen, userRole, isLoggedIn } = useAuthStore();
   const [loginMethod, setLoginMethod] = useState<'phone' | 'email'>('phone');
   const [input, setInput] = useState('');
   const [ageVerified, setAgeVerified] = useState(false);
   const [step, setStep] = useState<'method' | 'age' | 'complete'>('method');
+  const [logoError, setLogoError] = useState(false);
+
+  // Auto-redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      const screenMap: Record<UserRole, string> = {
+        CUSTOMER: '/dashboard',
+        VENDOR: '/vendor',
+        ADMIN: '/admin',
+      };
+      const redirectPath = screenMap[userRole] || '/dashboard';
+      console.log(`Redirecting to: ${redirectPath}`);
+      setTimeout(() => {
+        router.push(redirectPath);
+      }, 1000);
+    }
+  }, [isLoggedIn, userRole, router]);
 
   const handleContinue = () => {
     if (!input.trim()) return;
@@ -41,12 +61,26 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-black flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
-        {/* Logo */}
+        {/* Logo Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-black tracking-wider text-amber-500 mb-2">
-            SHEESHATONIGHT
-          </h1>
-          <p className="text-gray-400">Premium Tobacco & Sheesha Rental</p>
+          {!logoError ? (
+            <div className="flex justify-center mb-6">
+              <Image
+                src="/logo.png"
+                alt="SheeshaTonight Logo"
+                width={280}
+                height={120}
+                priority
+                className="h-auto w-auto max-w-xs"
+                onError={() => setLogoError(true)}
+              />
+            </div>
+          ) : (
+            <h1 className="text-4xl md:text-5xl font-black tracking-wider text-amber-500 mb-2">
+              SHEESHATONIGHT
+            </h1>
+          )}
+          <p className="text-gray-400 text-sm">Premium Tobacco & Sheesha Rental</p>
         </div>
 
         {/* Role Switcher */}
