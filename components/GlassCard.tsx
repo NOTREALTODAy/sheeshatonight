@@ -15,11 +15,11 @@ export const GlassCard: React.FC<GlassCardProps> = ({
     <div
       onClick={onClick}
       className={`
-        bg-zinc-900/80 backdrop-blur-md 
-        border border-zinc-800/60 
-        rounded-3xl shadow-2xl 
+        bg-white backdrop-blur-md 
+        border-2 border-amber-200
+        rounded-3xl shadow-lg 
         p-6 transition-all duration-300 
-        hover:border-zinc-700/80 hover:shadow-[0_0_40px_rgba(234,179,8,0.1)]
+        hover:border-amber-300 hover:shadow-xl
         ${className}
       `}
     >

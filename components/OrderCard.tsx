@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { GlassCard } from './GlassCard';
 import { ProgressBar } from './ProgressBar';
 import { ChevronRight } from 'lucide-react';
 import type { Order } from '@/lib/types';
@@ -12,22 +11,22 @@ interface OrderCardProps {
 
 export const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   return (
-    <GlassCard className="mb-4 hover:shadow-[0_0_50px_rgba(234,179,8,0.15)]">
+    <div className="bg-white rounded-2xl shadow-lg p-6 mb-4 border-2 border-amber-200 hover:shadow-xl transition">
       <div className="flex flex-col gap-4">
         {/* Header Row */}
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs text-amber-500 font-semibold uppercase tracking-wide">
+            <p className="text-xs text-orange-700 font-bold uppercase tracking-wide">
               {order.orderNumber}
             </p>
-            <h3 className="text-lg font-bold text-white mt-1">{order.venue}</h3>
-            <p className="text-sm text-gray-400 mt-1">
-              Status: <span className="text-amber-500 font-semibold">{order.status}</span>
+            <h3 className="text-lg font-bold text-gray-900 mt-1">{order.venue}</h3>
+            <p className="text-sm text-gray-600 mt-1">
+              Status: <span className="text-orange-600 font-semibold">{order.status}</span>
             </p>
           </div>
           <div className="text-right">
-            <p className="text-xl font-black text-amber-500">{order.total}</p>
-            <p className="text-xs text-gray-400 mt-1">{order.estimatedDelivery}</p>
+            <p className="text-xl font-black text-orange-600">{order.total}</p>
+            <p className="text-xs text-gray-600 mt-1">{order.estimatedDelivery}</p>
           </div>
         </div>
 
@@ -35,16 +34,16 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
         <ProgressBar progress={order.progress} label="Order Progress" />
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-zinc-800/40">
-          <p className="text-xs text-gray-500">
-            Est. Delivery: <span className="text-amber-500 font-semibold">{order.estimatedDelivery}</span>
+        <div className="flex items-center justify-between pt-2 border-t-2 border-amber-200">
+          <p className="text-xs text-gray-600">
+            Est. Delivery: <span className="text-orange-600 font-semibold">{order.estimatedDelivery}</span>
           </p>
-          <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-amber-500/30 transition">
+          <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-orange-500/30 transition">
             View Live Details
             <ChevronRight size={16} />
           </button>
         </div>
       </div>
-    </GlassCard>
+    </div>
   );
 };
